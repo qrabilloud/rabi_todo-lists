@@ -1,3 +1,14 @@
-2024/11/07-19:59:08.662387 7ff9f2fbf6c0 Recovering log #335
-2024/11/07-19:59:08.667846 7ff9f2fbf6c0 Delete type=0 #335
-2024/11/07-19:59:08.667869 7ff9f2fbf6c0 Delete type=3 #333
+2024/11/08-20:30:41.947017 7ff9eaffd6c0 Recovering log #435
+2024/11/08-20:30:41.947104 7ff9eaffd6c0 Level-0 table #437: started
+2024/11/08-20:30:41.951339 7ff9eaffd6c0 Level-0 table #437: 407 bytes OK
+2024/11/08-20:30:41.955301 7ff9eaffd6c0 Delete type=3 #434
+2024/11/08-20:30:41.955385 7ff9eaffd6c0 Delete type=0 #435
+2024/11/08-20:30:41.955964 7ff9e9bff6c0 Compacting 4@0 + 1@1 files
+2024/11/08-20:30:41.958127 7ff9e9bff6c0 Generated table #439@0: 1 keys, 407 bytes
+2024/11/08-20:30:41.958223 7ff9e9bff6c0 Compacted 4@0 + 1@1 files => 407 bytes
+2024/11/08-20:30:41.960160 7ff9e9bff6c0 compacted to: files[ 0 1 0 0 0 0 0 ]
+2024/11/08-20:30:41.960298 7ff9e9bff6c0 Delete type=2 #418
+2024/11/08-20:30:41.960559 7ff9e9bff6c0 Delete type=2 #423
+2024/11/08-20:30:41.960617 7ff9e9bff6c0 Delete type=2 #428
+2024/11/08-20:30:41.960722 7ff9e9bff6c0 Delete type=2 #420
+2024/11/08-20:30:41.960768 7ff9e9bff6c0 Delete type=2 #437

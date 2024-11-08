@@ -4,6 +4,12 @@ type DONE = "DONE"
 
 type State = PENDING | INPROGRESS | DONE
 
+export function isState(state : string|undefined) : boolean{
+    if (typeof state === "undefined") return false;
+    if (state == "PENDING" || state == "IN-PROGRESS" || state == "DONE") return true;
+    return false;
+}
+
 export interface ITodoList {
     id: string
     name?: string
@@ -13,6 +19,6 @@ export interface ITodoList {
 
 export interface Item {
     id: string
-    state?: State
+    state: State
     description?: string
 }
