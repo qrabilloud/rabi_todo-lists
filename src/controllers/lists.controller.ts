@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { ITodoList, Item, isState } from "../interfaces/index"
+import { ITodoList, ITodoItem, isState } from "../interfaces/index"
 import { REPL_MODE_SLOPPY } from "repl"
 
 export async function listLists(
@@ -81,7 +81,7 @@ export async function getItems(request : FastifyRequest, reply: FastifyReply){
 }
 
 export async function addItem(request: FastifyRequest, reply: FastifyReply){
-  const newItem = request.body as Item
+  const newItem = request.body as ITodoItem
   newItem.state =  isState(newItem.state) ? newItem.state : "PENDING"
   const splittedUrl = request.url.split('/') as string[]
   const id = splittedUrl[splittedUrl.length-2]
@@ -120,9 +120,9 @@ export async function updateItem(request: FastifyRequest, reply: FastifyReply){
   const gottenList = await this.level.db.get(idList)
   const listToUpdate = JSON.parse(gottenList) as ITodoList
   const idItem = splittedUrl[splittedUrl.length-1]
-  const updatedItem = request.body as Partial<Omit<Item, "id">>
+  const updatedItem = request.body as Partial<Omit<ITodoItem, "id">>
   if (listToUpdate.items.some((item) => item.id == idItem)){
-    const itemToUpdate = listToUpdate.items.find((item) => item.id == idItem) as Item
+    const itemToUpdate = listToUpdate.items.find((item) => item.id == idItem) as ITodoItem
     for (const field in updatedItem){
       itemToUpdate[field] = updatedItem[field]
     }

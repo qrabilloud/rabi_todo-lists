@@ -14,10 +14,10 @@ export interface ITodoList {
     id: string
     name?: string
     description?: string
-    items: Item[]
+    items: ITodoItem[]
 }
 
-export interface Item {
+export interface ITodoItem {
     id: string
     state: State
     description?: string

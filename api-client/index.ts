@@ -42,9 +42,9 @@ export const apiClient = {
         return api.listsIdItemsPost(id, item)
     },
     deleteItem: async(idList : string, idItem : string) => {
-        return api.listsIdItemsIdDelete(idList, idItem)
+        return api.listsIdItemsIdItemDelete(idList, idItem)
     },
     updateItem: async(idList : string, idItem : string, updatedItem : ITodoItem) => {
-        return api.listsIdItemsIdPut(idList, idItem, updatedItem)
+        return api.listsIdItemsIdItemPut(idList, idItem, updatedItem)
     }
 }
