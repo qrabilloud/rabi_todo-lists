@@ -17,7 +17,7 @@ export * from "./api";
 export * from "./configuration";
 
 import { ListsApi } from 'todo-list-client'
-import {ITodoList} from "./api"
+import {ITodoList, ITodoItem} from "./api"
 const api = new ListsApi()
 
 export const apiClient = {
@@ -26,7 +26,25 @@ export const apiClient = {
         // const api = new ListsApi()
         return api.listsGet()
     },
-    addList: async(list : ITodoList) =>{
+    addList: async(list : ITodoList) => {
         return api.listsPost(list)
+    },
+    deleteList: async(id : string) => {
+        return api.listsIdDelete(id)
+    },
+    updateList: async(id : string, updatedList : ITodoList) => {
+        return api.listsIdPut(id, updatedList)
+    },
+    getItem: async(id : string) => {
+        return api.listsIdItemsGet(id)
+    },
+    addItem: async(id : string, item : ITodoItem) => {
+        return api.listsIdItemsPost(id, item)
+    },
+    deleteItem: async(idList : string, idItem : string) => {
+        return api.listsIdItemsIdDelete(idList, idItem)
+    },
+    updateItem: async(idList : string, idItem : string, updatedItem : ITodoItem) => {
+        return api.listsIdItemsIdPut(idList, idItem, updatedItem)
     }
 }
