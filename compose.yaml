@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+    - "3000:3000"
+    volumes:
+      - .:/code
+  redis:
+    image: redis
+  ui:
+    build: ../rabi_UI
+    ports:
+      - "3006:3006"
+    volumes:
+      - .:/code

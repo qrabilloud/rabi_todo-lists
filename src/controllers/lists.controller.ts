@@ -20,23 +20,28 @@ export async function listLists(
 export async function addList(
   request: FastifyRequest, 
   reply: FastifyReply
-) {
+) { 
+  console.log(request.body)
   const list = request.body as ITodoList
   list.items.forEach((item) => item.state =  isState(item.state) ? item.state : "PENDING")
-  const result = await this.level.db.put(
-  list.id.toString(), JSON.stringify(list)
- )
- reply.send({ data: result })
+  await this.level.db.put(list.id.toString(), JSON.stringify(list))
+  //listLists(request, reply)
+  const listsIter = this.level.db.iterator()
+  const result: ITodoList[] = []
+  for await (const [key, value] of listsIter) {
+    result.push(JSON.parse(value))
+  }
+  reply.send({ data: result })
 }
 
-export async function deleteList(request: FastifyRequest, reply: FastifyReply){
+export async function deleteList(request: FastifyRequest, reply: FastifyReply){ 
   const splittedUrl = request.url.split('/') as string[]
   const id = splittedUrl[splittedUrl.length-1]
   const result = await this.level.db.del(id)
   return {data: result}
 }
 
-export async function updateListByID(request: FastifyRequest, reply: FastifyReply){
+export async function updateListByID(request: FastifyRequest, reply: FastifyReply){ 
   const updatedFields = request.body as Partial<Omit<ITodoList, "id">>
   const splittedUrl = request.url.split('/') as string[]
   const id = splittedUrl[splittedUrl.length-1]
@@ -68,11 +73,12 @@ export async function updateListByID(request: FastifyRequest, reply: FastifyRepl
     listToUpdate[field] = updatedFields[field]
   }
   console.log(listToUpdate)
-  const result = await this.level.db.put(id, JSON.stringify(listToUpdate))
+  await this.level.db.put(id, JSON.stringify(listToUpdate))
+  const result = listToUpdate
   reply.send({data : result})
 }
 
-export async function getItems(request : FastifyRequest, reply: FastifyReply){
+export async function getItems(request : FastifyRequest, reply: FastifyReply){ 
   const splittedUrl = request.url.split('/') as string[]
   const id = splittedUrl[splittedUrl.length-2]
   const gottenList = await this.level.db.get(id)
@@ -80,7 +86,7 @@ export async function getItems(request : FastifyRequest, reply: FastifyReply){
   reply.send({data : list.items})
 }
 
-export async function addItem(request: FastifyRequest, reply: FastifyReply){
+export async function addItem(request: FastifyRequest, reply: FastifyReply){ 
   const newItem = request.body as ITodoItem
   newItem.state =  isState(newItem.state) ? newItem.state : "PENDING"
   const splittedUrl = request.url.split('/') as string[]
@@ -96,11 +102,12 @@ export async function addItem(request: FastifyRequest, reply: FastifyReply){
     console.log(listToUpdate)
     listToUpdate.items.push(newItem)
   }
-  const result = await this.level.db.put(id, JSON.stringify(listToUpdate))
+  await this.level.db.put(id, JSON.stringify(listToUpdate))
+  const result = listToUpdate
   reply.send({data : result})
 }
 
-export async function deleteItem(request: FastifyRequest, reply: FastifyReply){
+export async function deleteItem(request: FastifyRequest, reply: FastifyReply){ 
   const splittedUrl = request.url.split('/') as string[]
   const idList = splittedUrl[splittedUrl.length-3]
   const gottenList = await this.level.db.get(idList)
@@ -108,13 +115,14 @@ export async function deleteItem(request: FastifyRequest, reply: FastifyReply){
   const idItem = splittedUrl[splittedUrl.length-1]
   if (listToUpdate.items.some((item) => item.id == idItem)){
     listToUpdate.items.splice(listToUpdate.items.findIndex((item) => item.id == idItem) , 1)
-    const result = await this.level.db.put(idList, JSON.stringify(listToUpdate))
+    await this.level.db.put(idList, JSON.stringify(listToUpdate))
+    const result = listToUpdate
     reply.send({data : result})
   }
   else reply.send({data : undefined})
 }
 
-export async function updateItem(request: FastifyRequest, reply: FastifyReply){
+export async function updateItem(request: FastifyRequest, reply: FastifyReply){ 
   const splittedUrl = request.url.split('/') as string[]
   const idList = splittedUrl[splittedUrl.length-3]
   const gottenList = await this.level.db.get(idList)
@@ -126,7 +134,8 @@ export async function updateItem(request: FastifyRequest, reply: FastifyReply){
     for (const field in updatedItem){
       itemToUpdate[field] = updatedItem[field]
     }
-    const result = await this.level.db.put(idList, JSON.stringify(listToUpdate))
+    await this.level.db.put(idList, JSON.stringify(listToUpdate))
+    const result = listToUpdate
     reply.send({data : result})
   }
   else reply.badRequest("Unexisting itemID")
